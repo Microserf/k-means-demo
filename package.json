@@ -1,0 +1,25 @@
+{
+  "name": "k-means-demo",
+  "version": "1.0.0",
+  "description": "A demonstration and visualization of the k-means clustering algorithm.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microserf/k-means-demo.git"
+  },
+  "keywords": [
+    "k-means",
+    "demonstration",
+    "visualization",
+    "clustering"
+  ],
+  "author": "Anthony Lalande <anthony@exxis.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Microserf/k-means-demo/issues"
+  },
+  "homepage": "https://github.com/Microserf/k-means-demo#readme"
+}
