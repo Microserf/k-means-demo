@@ -2,13 +2,7 @@ body {
   background-color: #fffffd;
 }
 
-
-.demo {
-  text-align: center;
-}
-
 header {
-  font-family: 'Lora', serif;
   min-height: 2em;
   display: flex;
   flex-direction: column;
@@ -16,4 +10,37 @@ header {
   justify-content: center;
   font-size: 3em;
   color: #4e2c00;
+}
+
+header, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lora', serif;
+}
+
+hr {
+  width: 80%;
+}
+
+.observation-controls {
+  display: inline-block;
+  margin: 0.5em 0 1em;
+}
+
+.observation-controls .header {
+  margin: 0 0 0.4em;
+  border-bottom: 1px solid #bfbfbf;
+  padding: 0 0 0.2em;
+}
+
+.observation-controls label {
+  display: block;
+  margin: 0.3em 0;
+}
+
+.canvas {
+  margin: 30px;
+}
+
+.canvas svg {
+  border: 1px solid #bfbfbf;
+  max-height: 60vh;
 }
