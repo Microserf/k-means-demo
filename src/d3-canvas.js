@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 
-export class KMeansObservationControls extends Component {
+export class ObservationControls extends Component {
   render () {
     const { observationCount, clusterGravity, callback } = this.props;
 
     return (
-      <div className="observation-controls">
+      <div className="observation-controls controls">
         <h3 className="header">Observations</h3>
         <label>How many? <select name="observationCount" id="observationCount" value={observationCount} onChange={callback}>
           <option>10</option>
@@ -19,6 +19,42 @@ export class KMeansObservationControls extends Component {
           <option value={0}>Random (no clusters)</option>
           <option value={0.6}>Weakly clustered</option>
           <option value={0.8}>Strongly clustered</option>
+        </select></label>
+      </div>
+    )
+  }
+}
+
+export class KMeansAlgorithmControls extends Component {
+  render () {
+    const { k, iterations, callback } = this.props;
+
+    return (
+      <div className="kmeans-controls controls">
+        <h3 className="header">K-Means Algorithm</h3>
+        <label>How many clusters (<em>k</em>)? <select name="k" id="k" value={k} onChange={callback}>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+        </select></label>
+
+        <label>How many refinements (<em>iterations</em>)? <select name="iterations" id="iterations" value={iterations} onChange={callback}>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
         </select></label>
       </div>
     )
