@@ -1,29 +1,36 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 
+export class KMeansObservationControls extends Component {
+  render () {
+    return (
+      <div className="observation-controls">
+        <h3 className="header">Observations</h3>
+        <label>How many? <select name="observation-count" id="observation-count">
+          <option>100</option>
+          <option>500</option>
+          <option>1000</option>
+        </select></label>
+
+        <label>Distribute how? <select name="observation-clusters" id="observation-clusters">
+          <option>Totally random (no clusters)</option>
+          <option>Partially skewed (weak clusters)</option>
+          <option>Strongly skewed (obvious clusters)</option>
+        </select></label>
+      </div>
+    )
+  }
+}
+
 
 export class KMeansCanvas extends Component {
-
   componentDidMount () {
     this.setState({graph: new KMeansGraph()})
   }
 
   render() {
     return (
-      <div className="canvas">
-        <div className="observation-controls">
-          <h3 className="header">Observations</h3>
-          <label>How many? <select name="observation-count" id="observation-count">
-            <option>100</option>
-            <option>500</option>
-            <option>1000</option>
-          </select></label>
-
-          <label>Create clusters? <select name="observation-clusters" id="observation-clusters">
-            <option>No</option>
-            <option>Yes</option>
-          </select></label>
-        </div>
+      <div className="canvas sticky">
         <svg id="k-means-graph" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" />
       </div>
     )

@@ -1,5 +1,8 @@
 body {
   background-color: #fffffd;
+  font-family: 'Lora', serif;
+  padding: 0 30px;
+  font-size: large;
 }
 
 header {
@@ -13,16 +16,16 @@ header {
 }
 
 header, h1, h2, h3, h4, h5, h6 {
-  font-family: 'Lora', serif;
+  font-style: italic;
 }
 
 hr {
-  width: 80%;
+  width: 75%;
 }
 
 .observation-controls {
   display: inline-block;
-  margin: 0.5em 0 1em;
+  margin: 0.5em 0 0;
 }
 
 .observation-controls .header {
@@ -36,8 +39,16 @@ hr {
   margin: 0.3em 0;
 }
 
+.sticky {
+  position: sticky;
+  position: -webkit-sticky; /* Safari */
+  top: 0;
+}
+
 .canvas {
-  margin: 30px;
+  padding: 1em 0;
+  background-color: #fffffd;
+  z-index: 10;
 }
 
 .canvas svg {
