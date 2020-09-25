@@ -4,6 +4,23 @@ import './App.css';
 
 
 class App extends Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {observationCount: 500, clusterGravity: 0};
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   render() {
     return (
       <div className="demo">
@@ -16,8 +33,20 @@ class App extends Component {
 
           <p>First, let's create a fictitious set of observations. These are observations about the wealth of various celebrities. Below is a <a href="https://en.wikipedia.org/wiki/Scatter_plot">scatter plot</a> of these observations. The x-axis represents age (0 to 100), while the y-axis represents wealth (0 to $1,000,000).</p>
         </div>
-        <KMeansObservationControls />
-        <KMeansCanvas />
+        <KMeansObservationControls observationCount={this.state.observationCount} clusterGravity={this.state.clusterGravity} callback={this.handleChange}/>
+        <KMeansCanvas observationCount={this.state.observationCount} clusterGravity={this.state.clusterGravity} />
+        <div>
+          <p>Now that we have some observations to work with, let's start looking at k-means in action!</p>
+          <h3>Step 1: Random assignment</h3>
+            <p>First, all of the observations are randomly paritioned into <em>k</em> clusters.</p>
+
+          <h3>Step 2: Update centroids</h3>
+            <p>Now that we have <em>k</em> random clusters, let's calculate the geometric centers (or <em>centroids</em>).</p>
+
+          <h3>Step 3: Re-assign the observations</h3>
+            <p>Based on our updated centroids, let's now re-assign each observation to the nearest centroid.</p>
+
+        </div>
       </div>
     );
   }

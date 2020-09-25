@@ -3,19 +3,22 @@ import * as d3 from "d3";
 
 export class KMeansObservationControls extends Component {
   render () {
+    const { observationCount, clusterGravity, callback } = this.props;
+
     return (
       <div className="observation-controls">
         <h3 className="header">Observations</h3>
-        <label>How many? <select name="observation-count" id="observation-count">
+        <label>How many? <select name="observationCount" id="observationCount" value={observationCount} onChange={callback}>
+          <option>10</option>
+          <option>50</option>
           <option>100</option>
           <option>500</option>
-          <option>1000</option>
         </select></label>
 
-        <label>Distribute how? <select name="observation-clusters" id="observation-clusters">
-          <option>Totally random (no clusters)</option>
-          <option>Partially skewed (weak clusters)</option>
-          <option>Strongly skewed (obvious clusters)</option>
+        <label>Distribute how? <select name="clusterGravity" id="clusterGravity" value={clusterGravity} onChange={callback}>
+          <option value={0}>Random (no clusters)</option>
+          <option value={0.6}>Weakly clustered</option>
+          <option value={0.8}>Strongly clustered</option>
         </select></label>
       </div>
     )
@@ -24,8 +27,20 @@ export class KMeansObservationControls extends Component {
 
 
 export class KMeansCanvas extends Component {
+  constructor (props) {
+    super(props);
+
+    this.graph = null;
+  }
+
   componentDidMount () {
-    this.setState({graph: new KMeansGraph()})
+    const { observationCount, clusterGravity } = this.props;
+    this.graph = new KMeansGraph(observationCount, clusterGravity);
+  }
+
+  componentDidUpdate () {
+    const { observationCount, clusterGravity } = this.props;
+    this.graph.updateObservations(observationCount, clusterGravity);
   }
 
   render() {
@@ -38,18 +53,16 @@ export class KMeansCanvas extends Component {
 }
 
 class KMeansGraph {
-  constructor(callback) {
+  constructor(observationCount, clusterGravity) {
     this.svg = this.setUpSVG();
 
     this.width = 1000;
     this.height = 500;
 
-    this.xDomain = 100
-    this.yDomain = 1000000
-    this.observationCount = 300
-    this.observations = this.generateObservations();
+    this.ageRange = 100
+    this.wealthRange = 100
 
-    this.doVisualization()
+    this.updateObservations(observationCount, clusterGravity);
   }
 
   setUpSVG () {
@@ -60,33 +73,64 @@ class KMeansGraph {
     return svg;
   }
 
-  generateObservations () {
-    const randomRange = range => Math.floor(Math.random() * range);
+  generateObservations (observationCount, clusterGravity) {
+    const randomInteger = range => Math.floor(Math.random() * range);
+    const self = this;
 
-    return d3.range(0, this.observationCount)
-      .map( d => ({ age: randomRange(this.xDomain), followers: randomRange(this.yDomain)}))
+    var clusterCentroids;
+    if (clusterGravity > 0) {
+      clusterCentroids = this.generateObservations(3 + randomInteger(3), 0);  // will generate between 3 and 5 clusters
+    }
+
+    function makeObservation () {
+      var age = randomInteger(self.ageRange),
+          wealth = randomInteger(self.wealthRange);
+
+      if (clusterGravity > 0) {
+        var randomCentroid = clusterCentroids[randomInteger(clusterCentroids.length)];
+
+        age = age + (clusterGravity * (randomCentroid.age - age));
+        wealth = wealth + (clusterGravity * (randomCentroid.wealth - wealth));
+      }
+
+      return { age: age, wealth: wealth};
+    }
+
+    return d3.range(0, observationCount).map(makeObservation);
   }
 
-  doVisualization () {
+  updateObservations (observationCount, clusterGravity) {
+    this.observations = this.generateObservations(observationCount, clusterGravity);
+    this.updateDisplay()
+  }
+
+  updateDisplay () {
     var color = d3.scaleOrdinal(d3.schemeCategory10);
 
     var x = d3.scaleLinear()
         .range([0, this.width])
-        .domain([0, this.xDomain]).nice();
+        .domain([0, this.ageRange]).nice();
 
     var y = d3.scaleLinear()
         .range([0, this.height])
-        .domain([0, this.yDomain]).nice();
+        .domain([0, this.wealthRange]).nice();
 
-    this.svg
+    var nodes = this.svg
       .selectAll(".dot")
         .data(this.observations)
+        .attr("cx", function(d) { return x(d.age); })
+        .attr("cy", function(d) { return y(d.wealth); });
+
+    nodes
       .enter().append("circle")
         .attr("class", "dot")
         .attr("r", 3)
         .attr("cx", function(d) { return x(d.age); })
-        .attr("cy", function(d) { return y(d.followers); })
+        .attr("cy", function(d) { return y(d.wealth); })
         .attr("stroke", "black")
         .attr("fill", function(d) { return ( d.cluster == null ? "none" : color(d.cluster) ); });
+
+    nodes
+      .exit().remove();
   }
 }
