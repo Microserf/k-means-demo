@@ -7,18 +7,18 @@ class App extends Component {
   constructor (props) {
     super(props);
 
-    this.state = {observationCount: 500, clusterGravity: 0, k: 3, iterations: 5};
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      graph: undefined,
+      iterations: 5,
+      k: 3,
+      observations: undefined
+    };
+
+    this.receiveObservations = this.receiveObservations.bind(this)
   }
 
-  handleChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
+  receiveObservations (observations) {
+    this.setState({observations: observations});
   }
 
   render() {
@@ -33,14 +33,14 @@ class App extends Component {
           <p>First, let's create a fictitious set of observations. These are observations about the wealth of various celebrities. Below is a <a href="https://en.wikipedia.org/wiki/Scatter_plot">scatter plot</a> of these observations. The x-axis represents age (0 to 100), while the y-axis represents wealth (0 to $1,000,000).</p>
         </div>
 
-        <ObservationControls observationCount={this.state.observationCount} clusterGravity={this.state.clusterGravity} callback={this.handleChange}/>
-        <KMeansCanvas observationCount={this.state.observationCount} clusterGravity={this.state.clusterGravity} />
+        <ObservationControls ageRange={100} wealthRange={1000000} callback={this.receiveObservations}/>
+        <KMeansCanvas graph={this.state.graph} ageRange={100} wealthRange={1000000} observations={this.state.observations} />
 
         <div className="explanation">
           <p>Now that we have some observations to work with, let's start looking at k-means in action! The first thing we need to do is specify the value of <em>k</em> (how many clusters do we want to create?), as well as the number of <em>iterations</em> (how many times do we want the algorithm to refine its solution?).</p>
         </div>
 
-        <KMeansAlgorithmControls k={this.state.k} iterations={this.state.iterations} callback={this.handleChange} />
+        <KMeansAlgorithmControls k={this.state.k} iterations={this.state.iterations} />
 
         <div className="explanation">
           <div className="step">

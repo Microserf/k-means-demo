@@ -2,23 +2,73 @@ import React, { Component } from 'react';
 import * as d3 from "d3";
 
 export class ObservationControls extends Component {
-  render () {
-    const { observationCount, clusterGravity, callback } = this.props;
+  constructor (props) {
+    super(props);
+    this.state = {
+      clusterGravity: 0.6,
+      observationCount: 500,
+    };
 
+    this.handleChange = this.handleChange.bind(this);
+    this.updateObservations();
+  }
+
+  generateObservations (observationCount, clusterGravity) {
+    const randomInteger = range => Math.floor(Math.random() * range);
+    const {ageRange, wealthRange} = this.props;
+
+    var clusterCentroids;
+    if (clusterGravity > 0) {
+      clusterCentroids = this.generateObservations(2 + randomInteger(5), 0);  // will generate between 3 and 5 clusters
+    }
+
+    function makeObservation () {
+      var age = randomInteger(ageRange),
+          wealth = randomInteger(wealthRange);
+
+      if (clusterGravity > 0) {
+        var randomCentroid = clusterCentroids[randomInteger(clusterCentroids.length)];
+
+        age = age + ((Math.random(clusterGravity / 2) + (clusterGravity / 2)) * (randomCentroid.age - age));
+        wealth = wealth + ((Math.random(clusterGravity / 2) + (clusterGravity / 2)) * (randomCentroid.wealth - wealth));
+      }
+
+      return { age: age, wealth: wealth};
+    }
+
+    return d3.range(0, observationCount).map(makeObservation);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    }, this.updateObservations);
+  }
+
+  updateObservations () {
+    this.observations = this.generateObservations(this.state.observationCount, this.state.clusterGravity);
+    this.props.callback(this.observations);
+  }
+
+  render () {
     return (
       <div className="observation-controls controls">
         <h3 className="header">Observations</h3>
-        <label>How many? <select name="observationCount" id="observationCount" value={observationCount} onChange={callback}>
+        <label>How many? <select name="observationCount" id="observationCount" value={this.state.observationCount} onChange={this.handleChange}>
           <option>10</option>
           <option>50</option>
           <option>100</option>
           <option>500</option>
         </select></label>
 
-        <label>Distribute how? <select name="clusterGravity" id="clusterGravity" value={clusterGravity} onChange={callback}>
+        <label>Distribute how? <select name="clusterGravity" id="clusterGravity" value={this.state.clusterGravity} onChange={this.handleChange}>
           <option value={0}>Random (no clusters)</option>
           <option value={0.6}>Weakly clustered</option>
-          <option value={0.8}>Strongly clustered</option>
+          <option value={1}>Strongly clustered</option>
         </select></label>
       </div>
     )
@@ -27,7 +77,7 @@ export class ObservationControls extends Component {
 
 export class KMeansAlgorithmControls extends Component {
   render () {
-    const { k, iterations, callback } = this.props;
+    const { k, iterations, callback=()=>{} } = this.props;
 
     return (
       <div className="kmeans-controls controls">
@@ -70,13 +120,11 @@ export class KMeansCanvas extends Component {
   }
 
   componentDidMount () {
-    const { observationCount, clusterGravity } = this.props;
-    this.graph = new KMeansGraph(observationCount, clusterGravity);
+    this.graph = new KMeansGraph(this.props);
   }
 
   componentDidUpdate () {
-    const { observationCount, clusterGravity } = this.props;
-    this.graph.updateObservations(observationCount, clusterGravity);
+    this.graph.setObservations(this.props.observations);
   }
 
   render() {
@@ -89,16 +137,21 @@ export class KMeansCanvas extends Component {
 }
 
 class KMeansGraph {
-  constructor(observationCount, clusterGravity) {
+  constructor({ageRange, wealthRange, observations}) {
     this.svg = this.setUpSVG();
-
     this.width = 1000;
     this.height = 500;
 
-    this.ageRange = 100
-    this.wealthRange = 100
+    this.ageRange = ageRange;
+    this.wealthRange = wealthRange;
+    this.setObservations(observations);
+  }
 
-    this.updateObservations(observationCount, clusterGravity);
+  setObservations (observations) {
+    this.observations = observations;
+    if (this.observations != null) {
+      this.updateDisplay();
+    }
   }
 
   setUpSVG () {
@@ -107,37 +160,6 @@ class KMeansGraph {
         .style("user-select", "none");
 
     return svg;
-  }
-
-  generateObservations (observationCount, clusterGravity) {
-    const randomInteger = range => Math.floor(Math.random() * range);
-    const self = this;
-
-    var clusterCentroids;
-    if (clusterGravity > 0) {
-      clusterCentroids = this.generateObservations(3 + randomInteger(3), 0);  // will generate between 3 and 5 clusters
-    }
-
-    function makeObservation () {
-      var age = randomInteger(self.ageRange),
-          wealth = randomInteger(self.wealthRange);
-
-      if (clusterGravity > 0) {
-        var randomCentroid = clusterCentroids[randomInteger(clusterCentroids.length)];
-
-        age = age + (clusterGravity * (randomCentroid.age - age));
-        wealth = wealth + (clusterGravity * (randomCentroid.wealth - wealth));
-      }
-
-      return { age: age, wealth: wealth};
-    }
-
-    return d3.range(0, observationCount).map(makeObservation);
-  }
-
-  updateObservations (observationCount, clusterGravity) {
-    this.observations = this.generateObservations(observationCount, clusterGravity);
-    this.updateDisplay()
   }
 
   updateDisplay () {
