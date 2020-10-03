@@ -10,7 +10,10 @@ export class Step1 extends Component {
 
     return (
       <div>
-        <p>In this demonstration, we're going to attempt to create clusters of observations regarding celebrities and their wealths.</p>
+        <p>You are in charge of conducting a study of various celebrities, and putting together data on their ages and wealths.</p>
+
+
+
 
         <p>In this set of observations, celebrities have ages (0 to 100) and wealths that range from $0 to $1M ($1,000,000). Some celebrities are extremely young (1 year old) but already have trust funds worth $998,012! Other celebrities are older (99 years old) and are destitute, having only $22 in their bank accounts.</p>
 

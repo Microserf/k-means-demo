@@ -1,18 +1,50 @@
+html {
+  height: 100%;
+}
+
+
+/* Background image credit:
+
+<span>Photo by <a href="https://unsplash.com/@sharonmccutcheon?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Sharon McCutcheon</a> on <a href="https://unsplash.com/s/photos/abstract?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
+
+*/
 body {
-  background-color: #fffffd;
+  height: 100%;
   font-family: 'Lora', serif;
-  margin: 0 auto;
-  max-width: 1000px;
+  margin: 0;
   font-size: large;
+  background-image: url("/splash.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* This is the React root */
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* This is the application root */
+.demo {
+  background-color: #fffffd;
+  max-width: 1000px;
+  padding: 30px;
+  margin: 50px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 header {
-  height: 85px;
-  top: 0;
   background-color: #fffffd;
   font-size: 50px;
   color: #4e2c00;
   text-align: center;
+  margin-bottom: 0.7em;
 }
 
 header, h1, h2, h3, h4, h5, h6 {
@@ -22,6 +54,14 @@ header, h1, h2, h3, h4, h5, h6 {
 hr {
   width: 75%;
 }
+
+.showstopper {
+  text-align: center;
+  margin-top: 3em;
+}
+
+
+
 
 .controls {
   display: inline-block;
@@ -37,12 +77,6 @@ hr {
 .controls label {
   display: block;
   margin: 0.3em 0;
-}
-
-.sticky {
-  position: sticky;
-  position: -webkit-sticky; /* Safari */
-  z-index: 10;
 }
 
 .canvas {

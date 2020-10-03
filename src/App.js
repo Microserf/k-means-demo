@@ -30,8 +30,8 @@ class App extends Component {
 
     return (
       <div className="demo">
-        <header className="sticky">
-          K-means Clustering Visualization
+        <header>
+          K-means Clustering Demo
         </header>
         <Router>
           <Switch>
