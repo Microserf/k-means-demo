@@ -1,41 +1,25 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-import {ObservationControls, KMeansCanvas, KMeansAlgorithmControls} from './d3-canvas';
+import {ObservationControls, KMeansCanvas } from './d3-canvas';
 
 
 export class Step1 extends Component {
   render () {
-    const { callback, graph, iterations, k, observations } = this.props;
+    const { callback, graph, observations } = this.props;
 
     return (
       <div>
-        <p>These are observations about the wealth of various celebrities. Below is a <a href="https://en.wikipedia.org/wiki/Scatter_plot">scatter plot</a> of these observations. The x-axis represents age (0 to 100), while the y-axis represents wealth (0 to $1,000,000).</p>
+        <p>In this demonstration, we're going to attempt to create clusters of observations regarding celebrities and their wealths.</p>
+
+        <p>In this set of observations, celebrities have ages (0 to 100) and wealths that range from $0 to $1M ($1,000,000). Some celebrities are extremely young (1 year old) but already have trust funds worth $998,012! Other celebrities are older (99 years old) and are destitute, having only $22 in their bank accounts.</p>
+
+        <p>We'll graph these observations on a <a href="https://en.wikipedia.org/wiki/Scatter_plot">scatter plot</a>. The x (horizontal) axis represents age, while the y (vertical) axis represents wealth. You can hover over any observation (circle) in the graph to see the details of this particular celebrity.</p>
 
         <ObservationControls ageRange={100} wealthRange={1000000} callback={callback}/>
         <KMeansCanvas graph={graph} ageRange={100} wealthRange={1000000} observations={observations} />
 
-        <div className="explanation">
-          <p>Now that we have some observations to work with, let's start looking at k-means in action! The first thing we need to do is specify the value of <em>k</em> (how many clusters do we want to create?), as well as the number of <em>iterations</em> (how many times do we want the algorithm to refine its solution?).</p>
-        </div>
-
-        <KMeansAlgorithmControls k={k} iterations={iterations} />
-
-        <div className="explanation">
-          <div className="step">
-            <h3>Step 1: Random assignment</h3>
-            <p>First, all of the observations are randomly paritioned into <em>k</em> clusters.</p>
-          </div>
-
-          <div className="step">
-            <h3>Step 2: Update centroids</h3>
-            <p>Now that we have <em>k</em> random clusters, let's calculate the geometric centers (or <em>centroids</em>).</p>
-          </div>
-
-          <div className="step">
-            <h3>Step 3: Re-assign the observations</h3>
-            <p>Based on our updated centroids, let's now re-assign each observation to the nearest centroid.</p>
-          </div>
-        </div>
+        <Link to="/step2">Next</Link>
       </div>
     );
   }
