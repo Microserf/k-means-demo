@@ -57,10 +57,22 @@ hr {
 
 .showstopper {
   text-align: center;
-  margin-top: 3em;
+  margin: 2em 0 1em;
 }
 
+.self-identification {
+  text-align: center;
+}
 
+.self-identification select {
+  margin: 0 0.5em;
+  font-size: large;
+}
+
+.continue {
+  text-align: right;
+  margin: 3em 0 0;
+}
 
 
 .controls {
