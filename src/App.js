@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
 
 import { Intro } from './intro';
 import { Step1 } from './step1';
@@ -13,34 +13,36 @@ class App extends Component {
     super(props);
 
     this.state = {
+      concern: undefined,
       graph: undefined,
       k: 3,
+      name: undefined,
       observations: undefined
     };
 
-    this.receiveObservations = this.receiveObservations.bind(this);
+    this.receiveState = this.receiveState.bind(this);
   }
 
-  receiveObservations (observations) {
-    this.setState({observations: observations});
+  receiveState (name, value) {
+    this.setState({[name]: value});
   }
 
   render() {
-    const { graph, k, observations } = this.state;
+    const { concern, graph, k, name, observations } = this.state;
 
     return (
       <div className="demo">
         <header>
           K-means Clustering Demo
         </header>
-        <Router>
+        <MemoryRouter>
           <Switch>
-            <Route path="/step1"><Step1 graph={graph} observations={observations} callback={this.receiveObservations}/></Route>
+            <Route path="/step1"><Step1 name={name} concern={concern} graph={graph} observations={observations} callback={this.receiveObservations}/></Route>
             <Route path="/step2"><Step2 k={k} /></Route>
             <Route path="/step3">Step3</Route>
-            <Route><Intro /></Route>
+            <Route><Intro callback={this.receiveState}/></Route>
           </Switch>
-        </Router>
+        </MemoryRouter>
       </div>
     );
   }

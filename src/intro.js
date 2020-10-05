@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import Button from '@material-ui/core/Button';
 
 export class Intro extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
 
     this.state = {
       name: undefined,
@@ -12,13 +13,14 @@ export class Intro extends Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.upstreamReceiver = props.callback;
   }
 
   handleChange(event) {
     const name = event.target.name,
           value = event.target.value;
 
-    this.setState({[name]: value});
+    this.setState({[name]: value}, () => this.upstreamReceiver(name, value));
   }
 
   render () {
@@ -36,15 +38,17 @@ export class Intro extends Component {
             <option>Alannah</option>
             <option>Benton</option>
           </select>
-          and I run
+          and I
           <select defaultValue="" name="concern" value={this.state.concern} onChange={this.handleChange}>
             <option value="" disabled></option>
-            <option>a nail factory!</option>
-            <option>a bakery!</option>
+            <option value="hardware">own a hardware store.</option>
+            <option value="yachts">make yachts.</option>
           </select>
         </div>
         <div className="continue">
-          <Button variant="contained" disabled={(this.state.name == null || this.state.concern == null)}>Continue</Button>
+          <LinkContainer to="/step1" disabled={(this.state.name == null || this.state.concern == null)}>
+            <Button variant="contained">Continue</Button>
+          </LinkContainer>
         </div>
       </div>
     );
