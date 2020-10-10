@@ -13,22 +13,14 @@ class App extends Component {
     super(props);
 
     this.state = {
-      concern: undefined,
       graph: undefined,
       k: 3,
-      name: undefined,
       observations: undefined
     };
-
-    this.receiveState = this.receiveState.bind(this);
-  }
-
-  receiveState (name, value) {
-    this.setState({[name]: value});
   }
 
   render() {
-    const { concern, graph, k, name, observations } = this.state;
+    const { graph, k, observations } = this.state;
 
     return (
       <div className="demo">
@@ -37,10 +29,10 @@ class App extends Component {
         </header>
         <MemoryRouter>
           <Switch>
-            <Route path="/step1"><Step1 name={name} concern={concern} graph={graph} observations={observations} callback={this.receiveObservations}/></Route>
+            <Route path="/step1"><Step1 graph={graph} observations={observations} /></Route>
             <Route path="/step2"><Step2 k={k} /></Route>
             <Route path="/step3">Step3</Route>
-            <Route><Intro callback={this.receiveState}/></Route>
+            <Route><Intro /></Route>
           </Switch>
         </MemoryRouter>
       </div>

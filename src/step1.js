@@ -1,24 +1,29 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-
-import {ObservationControls, KMeansCanvas } from './d3-canvas';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 
 
-export class Step1 extends Component {
-  concernPhrases = {
-    'hardware': 'owns a hardware store',
-    'yachts': 'builds yachts'
-  };
+export const Step1 = props => {
+  const name = useSelector(state => state.name),
+        concernPhrase = useSelector(state => getConcernPhrase(state.concern)),
+        dispatcher = useDispatch();
 
+  function getConcernPhrase(concern) {
+    switch (concern) {
+      case 'hardware':
+        return 'runs a hardware store.'
 
-  render () {
-    const { name, concern } = this.props;
-    const concernPhrase = this.concernPhrases[concern];
+      case 'yachts':
+        return 'builds yachts.'
 
-    return (
-      <div>
-        <p>Ok, {name} who {concernPhrase}... (if that is your real name...)</p>
-      </div>
-    );
+      default:
+        return ''
+
+    }
   }
+
+  return (
+    <div>
+      <p>Ok, {name} who {concernPhrase}... (if that is your real name...)</p>
+    </div>
+  );
 }
