@@ -1,40 +1,25 @@
 import React, { Component } from 'react';
-import { MemoryRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import { Intro } from './intro';
-import { Step1 } from './step1';
-import { Step2 } from './step2';
+import { Intro } from './cards/intro';
+import { SelfIdentification } from './cards/self-id';
+import { Step2 } from './cards/step2';
 
 import './App.css';
 
 
 class App extends Component {
-  constructor (props) {
-    super(props);
-
-    this.state = {
-      graph: undefined,
-      k: 3,
-      observations: undefined
-    };
-  }
-
   render() {
-    const { graph, k, observations } = this.state;
-
     return (
       <div className="demo">
-        <header>
-          K-means Clustering Demo
-        </header>
-        <MemoryRouter>
+        <HashRouter>
           <Switch>
-            <Route path="/step1"><Step1 graph={graph} observations={observations} /></Route>
-            <Route path="/step2"><Step2 k={k} /></Route>
+            <Route path="/who_do_you_think_you_are_and_how_dare_you"><SelfIdentification/></Route>
+            <Route path="/step2"><Step2/></Route>
             <Route path="/step3">Step3</Route>
             <Route><Intro /></Route>
           </Switch>
-        </MemoryRouter>
+        </HashRouter>
       </div>
     );
   }

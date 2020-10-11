@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { KMeansAlgorithmControls } from './d3-canvas';
+import { KMeansAlgorithmControls } from '../d3-canvas';
 
 
 export class Step2 extends Component {
