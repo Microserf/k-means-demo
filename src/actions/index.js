@@ -1,16 +1,11 @@
 
 
-export function setName(name) {
+export function setPersonaDetail(type, value) {
   return {
-    type: 'name',
-    payload: name
+    type: type,
+    payload: value
   }
-};
+}
 
-export function setConcern(concern) {
-  return {
-    type: 'concern',
-    payload: concern
-  }
-};
-
+export const setName = (name) => setPersonaDetail('name', name);
+export const setConcern = (concern) => setPersonaDetail('concern', concern);
