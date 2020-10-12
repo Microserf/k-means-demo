@@ -1,5 +1,10 @@
+const DEFAULT_STATE = {
+  name: 'Alannah',
+  concern: 'hardware'
+}
 
-export function personaReducer(state = {}, action) {
+
+export function personaReducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
     case 'name':
       return {
