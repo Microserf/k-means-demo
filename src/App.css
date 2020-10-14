@@ -68,6 +68,15 @@ hr {
   margin: 3em 0 0;
 }
 
+.data-collection {
+  margin-top: 4em;
+  text-align: center;
+}
+
+.data-collection [role=progressbar] {
+  margin: 1em 0;
+}
+
 
 .controls {
   display: inline-block;
