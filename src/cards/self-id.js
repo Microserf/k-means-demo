@@ -49,7 +49,7 @@ export const SelfIdentification = props => {
       </div>
 
       <div className="continue">
-        <LinkContainer to="/ok_whatever">
+        <LinkContainer to="/hows_business">
           <Button disabled={!isContinuable} variant="contained">Honest!</Button>
         </LinkContainer>
       </div>
