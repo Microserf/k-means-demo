@@ -53,14 +53,16 @@ hr {
   width: 75%;
 }
 
-.inline-question {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.name-choices {
+  margin: 10px 0;
 }
 
-.self-identification fieldset label {
-  margin: 0 16px;
+.self-identification {
+  text-align: center;
+}
+
+.self-identification button {
+  margin: 0 5px;
 }
 
 .continue {

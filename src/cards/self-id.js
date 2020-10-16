@@ -3,26 +3,29 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 
 import { setPersonaDetail } from '../actions';
 
 
+const ButtonRadio = props => {
+  const { type, value, label, isSelected, ...rest } = props;
+
+  return (
+    <Button variant="contained" color={isSelected ? "primary" : undefined} {...rest}>
+      {label || value}
+    </Button>
+  )
+}
+
+
 export const SelfIdentification = props => {
   const name = useSelector(state => state.name),
-        concern = useSelector(state => state.concern),
+        job = useSelector(state => state.job),
         dispatch = useDispatch(),
-        isContinuable = (name != null && concern != null);
+        isContinuable = (name != null && job != null);
 
-  const handleChange = (event) => {
-    const target = event.target,
-          type = target.name,
-          value = target.value;
-
-    dispatch(setPersonaDetail(type, value));
+  const handleClick = (type, value) => {
+    return () => dispatch(setPersonaDetail(type, value));
   }
 
   return (
@@ -31,23 +34,18 @@ export const SelfIdentification = props => {
         Who do you think you are?
       </header>
 
-      <div className="inline-question">
-        My name is...
-        <FormControl component="fieldset">
-          <RadioGroup aria-label="name" name="name" value={name || null} onChange={handleChange}>
-            <FormControlLabel control={<Radio />} value="Alannah" label="Alannah" />
-            <FormControlLabel control={<Radio />} value="Benton" label="Benton" />
-          </RadioGroup>
-        </FormControl>
+      My name is...
 
-        ...and I...
+      <div className="name-choices">
+        <ButtonRadio type="name" isSelected={name === 'Alannah'} value="Alannah" onClick={handleClick('name', 'Alannah')}/>
+        <ButtonRadio type="name" isSelected={name === 'Benton'} value="Benton" onClick={handleClick('name', 'Benton')} />
+      </div>
 
-        <FormControl component="fieldset">
-          <RadioGroup aria-label="concern" name="concern" value={concern || null} onChange={handleChange}>
-            <FormControlLabel control={<Radio />} value="hardware" label="own a hardware store." />
-            <FormControlLabel control={<Radio />} value="yachts" label="build yachts." />
-          </RadioGroup>
-        </FormControl>
+      ...and I...
+
+      <div className="job-choices">
+        <ButtonRadio type="job" isSelected={job === 'hardware'} value="hardware" label="own a hardware store." onClick={handleClick('job', 'hardware')} />
+        <ButtonRadio type="job" isSelected={job === 'archaeologist'} value="archaeologist" label="am an archaeologist." onClick={handleClick('job', 'archaeologist')} />
       </div>
 
       <div className="continue">

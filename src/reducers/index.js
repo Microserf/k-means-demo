@@ -1,6 +1,6 @@
 const DEFAULT_STATE = {
   name: 'Alannah',
-  concern: 'hardware'
+  job: 'hardware'
 }
 
 
@@ -12,10 +12,10 @@ export function personaReducer(state = DEFAULT_STATE, action) {
         name: action.payload
       }
 
-    case 'concern':
+    case 'job':
       return {
         ...state,
-        concern: action.payload
+        job: action.payload
       }
 
     default:

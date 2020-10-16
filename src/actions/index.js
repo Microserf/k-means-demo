@@ -8,4 +8,4 @@ export function setPersonaDetail(type, value) {
 }
 
 export const setName = (name) => setPersonaDetail('name', name);
-export const setConcern = (concern) => setPersonaDetail('concern', concern);
+export const setConcern = (job) => setPersonaDetail('job', job);
